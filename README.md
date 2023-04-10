@@ -11,7 +11,7 @@
 
 # definition
 
-MySQL
+MySQL is a targer platform. I use SQLite here to find out solvation.
 
 tables:
 
