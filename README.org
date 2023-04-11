@@ -205,19 +205,15 @@ res = cur.execute("""SELECT * from loans_table as l
 LEFT JOIN clients_table as c ON l.client_id = c.client_id
 WHERE l.loan_date BETWEEN '2022-10-01' AND '2022-11-01'
 ;""")
-# print(cur.description())
-# print(len(cur))
 a = res.fetchall()
 field_names = [x[0] for x in cur.description]
 # print(field_names)
 
 df = pd.DataFrame(a, columns = ['loan_id', 'client_id1', 'loan_date', 'client_id2', 'gender'])
 # print(df)
-# print()
-# for x in df:
-#     first = 0
+
 v = df.groupby(['gender', 'client_id1'],as_index=False).count()
-# v.groupby('gender').
+
 res_male = []
 res_female = []
 for i, c in enumerate(['first', 'second', 'third']):
