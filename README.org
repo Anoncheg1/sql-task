@@ -218,9 +218,6 @@ df = pd.DataFrame(a, columns = ['loan_id', 'client_id1', 'loan_date', 'client_id
 #     first = 0
 v = df.groupby(['gender', 'client_id1'],as_index=False).count()
 # v.groupby('gender').
-male = v[v['gender'] == 'male']
-female = v[v['gender'] == 'female']
-
 res_male = []
 res_female = []
 for i, c in enumerate(['first', 'second', 'third']):
