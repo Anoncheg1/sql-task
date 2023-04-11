@@ -18,7 +18,7 @@ Task to select count of first, second, thirst counts of loans in october of 2022
 | female | ?                   |                      |
 
 #+name: create client_table
-#+begin_src sqlite :db /tmp/test-sqlite.db :colnames yes
+#+begin_src sql :db /tmp/test-sqlite.db :colnames yes
 -- DROP TABLE clients_table;
 
 CREATE TABLE clients_table (
@@ -46,7 +46,7 @@ SELECT * FROM clients_table;
 
 
 #+name: create loans_table
-#+begin_src sqlite :db /tmp/test-sqlite.db :colnames yes
+#+begin_src sql :db /tmp/test-sqlite.db :colnames yes
 -- DROP TABLE loans_table;
 
 CREATE TABLE loans_table (
@@ -89,7 +89,7 @@ SELECT * FROM loans_table;
 
 
 #+name: step 1: select subspace
-#+begin_src sqlite :db /tmp/test-sqlite.db :colnames yes
+#+begin_src sql :db /tmp/test-sqlite.db :colnames yes
 SELECT * from loans_table as l
 LEFT JOIN clients_table as c ON l.client_id = c.client_id
 WHERE l.loan_date BETWEEN '2022-10-01' AND '2022-11-01'
@@ -114,7 +114,7 @@ WHERE l.loan_date BETWEEN '2022-10-01' AND '2022-11-01'
 |      11 |         4 | 2022-10-08 |         4 | male   |
 * Solution 1 "CASE WHEN"
 #+name: preparation
-#+begin_src sqlite :db /tmp/test-sqlite.db :colnames yes :exports both
+#+begin_src sql :db /tmp/test-sqlite.db :colnames yes :exports both
 SELECT c.gender, COUNT(l.client_id) lc, l.client_id from loans_table as l
 LEFT JOIN clients_table as c ON l.client_id = c.client_id
 WHERE l.loan_date BETWEEN '2022-10-01' AND '2022-11-01'
@@ -132,7 +132,7 @@ select NULL;
 | NULL   |    |           |
 
 #+name: select count of first, second, thirst counts of loans in october of 2022 -  SQL 'case when' solution
-#+begin_src sqlite :db /tmp/test-sqlite.db :colnames yes :exports both
+#+begin_src sql :db /tmp/test-sqlite.db :colnames yes :exports both
 select fff.gender,
 SUM(case when lc > 0 then 1 else 0 end) c_first_202210,
 SUM(case when lc > 1 then 1 else 0 end) c_second_202210,
@@ -153,7 +153,7 @@ group by gender;
 | male   |              3 |               2 |              1 |              1 |
 * Solution 2 "CTE and subquery"
 #+name: select count of first, second, thirst counts of loans in october of 2022 -  SQL 'CTE' solution
-#+begin_src sqlite :db /tmp/test-sqlite.db :colnames yes :exports both
+#+begin_src sql :db /tmp/test-sqlite.db :colnames yes :exports both
 WITH RECURSIVE  cte_pre AS (
 SELECT * from loans_table as l
 LEFT JOIN clients_table as c ON l.client_id = c.client_id
